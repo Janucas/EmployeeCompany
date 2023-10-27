@@ -38,10 +38,10 @@
 		for (Company c: result){
 		%>
 				<tr>
+					<td><%=c.getId()%></td>
 					<td><%=c.getName()%></td>
-					<td><%=c.getEmpleados().size()%></td>
-					<td><%=c.getCompanyProject().size%></td>
-	
+					<td><%=c.getAddress()%></td>
+					<td><%=c.getCity()%></td>
 					<td><table class="table">
 						<%
 							for (Employee e: c.getEmpleados()){

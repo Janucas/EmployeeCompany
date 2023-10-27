@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.SelectionQuery;
 
+import com.jacaranda.model.Company;
 import com.jacaranda.util.BdUtil;
 
 public class DbRepository {
@@ -42,6 +44,35 @@ public class DbRepository {
 		}
 		return result;
 
+	}
+	
+	public static Company addCompany(String name) {
+		Company result = null;
+		Session session = BdUtil.getSessionFactory().openSession();
+
+		SelectionQuery<Company> q =
+				session.createSelectionQuery("From Company where name = :name", Company.class);
+				q.setParameter("name", name);
+				List<Company> companys = q.getResultList(); 
+				if(companys.size() != 0) {
+					result = companys.get(0);
+				}
+				session.close();
+				return result;
+	}
+	
+	public static <T> void addEntity(T t){
+		Transaction transaction = null; 
+		Session session = BdUtil.getSessionFactory().openSession();
+
+		transaction = session.beginTransaction();
+		try {
+			session.persist(t);
+			transaction.commit();
+		}catch (Exception e) {
+			transaction.rollback();
+		}
+		session.close();
 	}
 
 }
