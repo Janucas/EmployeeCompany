@@ -10,8 +10,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "employee")
+@Table(name="employee")
 public class Employee {
+	
 	@Id
 	private int id;
 	private String firstName;
@@ -19,10 +20,27 @@ public class Employee {
 	private String email;
 	private String gender;
 	private Date dateOfBirth;
+	
 	@ManyToOne
-	@JoinColumn(name = "idCompany")
+	@JoinColumn(name="idCompany")
 	private Company company;
+	
 
+	public Employee(int id, String firstName, String lastName, String email, String gender, Date dateOfBirth,
+			Company company) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.gender = gender;
+		this.dateOfBirth = dateOfBirth;
+		this.company = company;
+	}
+	
+	public Employee() {
+		super();
+	}
 
 	public int getId() {
 		return id;
@@ -82,7 +100,7 @@ public class Employee {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(company);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -94,9 +112,16 @@ public class Employee {
 		if (getClass() != obj.getClass())
 			return false;
 		Employee other = (Employee) obj;
-		return Objects.equals(company, other.company);
+		return id == other.id;
+	}
+
+	@Override
+	public String toString() {
+		return 	String.format("Empleado id: %s, nombre: %s, apellidos: %s, email: %s, género: %s, fecha de nacimiento: %s, compañia: %s",
+				getId(),getFirstName(),getLastName(),getEmail(),gender,getGender(),getCompany());
+
 	}
 	
 	
-
+	
 }
